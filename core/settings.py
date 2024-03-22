@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 LOCAL_APPS = [
-    # Local apps
+    'users',
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS
@@ -85,11 +85,11 @@ if DB_NAME != "":
     DATABASES = {
         "default":{
             "ENGINE":"django.db.backends.postgresql",
-            "DB_NAME": DB_NAME,
-            "DB_USER": DB_USER,
-            "DB_PASSWORD": DB_PASSWORD,
-            "DB_HOST": DB_HOST,
-            "DB_PORT": DB_PORT,      
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,      
         }
     }
 else:
@@ -100,10 +100,7 @@ else:
     }
 }
 
-
-
-
-
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
