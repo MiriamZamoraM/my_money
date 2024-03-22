@@ -1,2 +1,1 @@
-# my_money
- 
+# app de seguimiento de gastos
