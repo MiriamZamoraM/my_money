@@ -1,5 +1,6 @@
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.db import models
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserManager(BaseUserManager):
@@ -37,6 +38,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField("Correo electrónico", unique=True, blank=False)
     status_delete = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    intentos = models.IntegerField(default=0)
     is_staff = models.BooleanField(default=False, verbose_name="Es staff")
     is_superadmin = models.BooleanField(default=False, verbose_name="Es admin")
     is_superuser = models.BooleanField(default=False, verbose_name="Es super usuario")
@@ -51,3 +54,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         verbose_name = "Usuario"
+
+    def tokens_access(self):
+        refresh = RefreshToken.for_user(self)
+        return ({'access':str(refresh.access_token)})
+ 
+    def tokens_refresh(self):
+        refresh = RefreshToken.for_user(self)
+        return {'refresh':str(refresh)}

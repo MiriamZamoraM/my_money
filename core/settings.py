@@ -1,6 +1,8 @@
 import sys
 from decouple import config, Csv
 from pathlib import Path
+from smtplib import SMTP
+from datetime import timedelta
 
 ENV = config('ENV', default='dev')
 
@@ -142,3 +144,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+}
+
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default = 'mymoney@example.com') 
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default = 'password') 
+EMAIL_PORT = 587
