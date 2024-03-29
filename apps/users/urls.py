@@ -8,6 +8,6 @@ from .views import LoginAPIView
 urlpatterns = [
     path('registry/', RegistryView.as_view(), name="registro"),
     path('list/', ListApiView.as_view(), name="lista"),
-    path('verify/<str:token>', VerifyEmail.as_view(), name = "verify"),
+    path('verify/<str:token>/', VerifyEmail.as_view(), name = "verify"),
     path('login/', LoginAPIView.as_view(), name="login"),
 ]
