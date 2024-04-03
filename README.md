@@ -4,7 +4,7 @@ Este repositorio es una una copia de un proyecto de un bootcamp, pero mejorado, 
 
 Espero poder seguirlo mejorando, y con nuevos proyectos.
 
-** UPDATE DEL PERFIL DEL USUARIO **
+**UPDATE DEL PERFIL DEL USUARIO**
 
 ------------------------------------------------------------------------------------------------------------
 
