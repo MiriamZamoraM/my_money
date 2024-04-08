@@ -1,7 +1,6 @@
-import sys
+import sys, os
 from decouple import config, Csv
 from pathlib import Path
-from smtplib import SMTP
 from datetime import timedelta
 
 ENV = config('ENV', default='dev')
@@ -42,6 +41,7 @@ LOCAL_APPS = [
     'users',
     'profiles',
     'accounts',
+    'transactions',
     ]
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS
@@ -170,3 +170,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default = 'mymoney@example.com') 
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default = 'password') 
 EMAIL_PORT = 587
+
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"

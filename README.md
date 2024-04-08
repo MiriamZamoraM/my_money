@@ -4,7 +4,7 @@ Este repositorio es una una copia de un proyecto de un bootcamp, pero mejorado, 
 
 Espero poder seguirlo mejorando, y con nuevos proyectos.
 
-**UPDATE DE CRUD DE CUENTAS PARA EL USUARIO**
+**UPDATE DE CRUD DE MOVIMIENTOS DE CADA CUENTA DEL USUARIO**
 
 ------------------------------------------------------------------------------------------------------------
 
