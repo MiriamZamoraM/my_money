@@ -1,6 +1,7 @@
-import sys
+import sys, os
 from decouple import config, Csv
 from pathlib import Path
+from datetime import timedelta
 
 ENV = config('ENV', default='dev')
 
@@ -33,11 +34,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 LOCAL_APPS = [
-    # Local apps
-]
+    'users',
+    'profiles',
+    'accounts',
+    'transactions',
+    ]
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS
 
@@ -85,11 +90,11 @@ if DB_NAME != "":
     DATABASES = {
         "default":{
             "ENGINE":"django.db.backends.postgresql",
-            "DB_NAME": DB_NAME,
-            "DB_USER": DB_USER,
-            "DB_PASSWORD": DB_PASSWORD,
-            "DB_HOST": DB_HOST,
-            "DB_PORT": DB_PORT,      
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,      
         }
     }
 else:
@@ -100,10 +105,7 @@ else:
     }
 }
 
-
-
-
-
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -145,3 +147,33 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+}
+
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default = 'mymoney@example.com') 
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default = 'password') 
+EMAIL_PORT = 587
+
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
