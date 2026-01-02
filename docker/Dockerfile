@@ -8,7 +8,7 @@ COPY core/ .
 COPY manage.py .
 WORKDIR /
 EXPOSE 8000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # La descripción de este archivo es:
     # 1️⃣ Definimos la imagen base de nuestra API
