@@ -1,0 +1,43 @@
+name: Django CI
+
+on:
+    push:
+        # branches: [ "develop" ] # En esta parte indicamos que rama usar, aunque 
+        # el detalle es que si queremos pasar el código de una rama a otra, por 
+        # los archivos puede haber conflictos, en ocasiones es mejor dejarlo 
+        # vacío
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+    pre-commit:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-python@v3
+            - uses: pre-commit/action@v3.0.1
+
+    tes_and_build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Set up Python 3.12
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.12'
+            - run: pip install -r requirements.txt
+            -
+                name: Login to GitHub Container Registry
+                uses: docker/login-action@v3
+                with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Build and Push Docker Image
+              uses: docker/build-push-action@v4
+              with:
+                push: true
+                tags: ghcr.io/MiriamZamoraM/my-money-app:latest
