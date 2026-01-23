@@ -40,4 +40,4 @@ jobs:
               uses: docker/build-push-action@v4
               with:
                 push: true
-                tags: ghcr.io/MiriamZamoraM/my_money:latest
+                tags: ghcr.io/miriamzamoram/my_money:latest
