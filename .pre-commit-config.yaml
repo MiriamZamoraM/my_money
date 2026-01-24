@@ -12,6 +12,7 @@ repos:
 exclude: |
   (^\.env$)|
   (^\.env\.)|
+  (file-env\.example)|
   (^variables\.yml$)|
   (^\.vscode$)|
   (^docker-compose\.yml$)|
