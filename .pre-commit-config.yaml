@@ -8,3 +8,12 @@ repos:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
+
+exclude: |
+  (^\.env$)|
+  (^\.env\.)|
+  (^variables\.yml$)|
+  (^\.vscode$)|
+  (^docker-compose\.yml$)|
+  (^docker$)|
+  (^\.github$)
