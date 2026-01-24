@@ -12,7 +12,7 @@ permissions:
     packages: write
 
 jobs:
-    tes_and_build:
+    test_and_build:
         runs-on: ubuntu-latest
 
         steps:
@@ -36,6 +36,6 @@ jobs:
                 file: ./docker/Dockerfile
                 push: true
                 no-cache: true
-                tags: 
+                tags: |
                     ghcr.io/miriamzamoram/my_money:latest
                     ghcr.io/miriamzamoram/my_money:${{ github.sha }}
