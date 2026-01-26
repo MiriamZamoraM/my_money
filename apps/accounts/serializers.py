@@ -12,12 +12,12 @@ class AccSerializer(serializers.ModelSerializer):
 
         tipo = attrs.get('type_account')
         wallet = attrs.get('public_key', None)
-        
+
         if tipo == 'wallet':
             wallet = attrs.get('public_key', None)
             if wallet is None:
                 raise ValidationError('El campo cuenta pública es requerido')
-            
+
         elif tipo == 'credito':
             credito = attrs.get('due_date', None)
             if credito is None:
@@ -30,7 +30,7 @@ class AccSerializer(serializers.ModelSerializer):
             if codigo is None:
                 raise ValidationError('El campo CVV es requerido')
         return attrs
-    
+
     def create(self, validated_data):
 
         account = Account.objects.create(**validated_data)

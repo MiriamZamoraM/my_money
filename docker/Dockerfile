@@ -12,8 +12,8 @@ EXPOSE 8000
 
 # La descripción de este archivo es:
     # 1️⃣ Definimos la imagen base de nuestra API
-    # 2️⃣ Agregamos un comando para agregar y un usuario no root sin contraseña para 
-        # correr los comandos, solo por desarrollo.  
+    # 2️⃣ Agregamos un comando para agregar y un usuario no root sin contraseña para
+        # correr los comandos, solo por desarrollo.
     # 3️⃣ Copiamos dependencias
     # 4️⃣ Instalamos dependencias
     # 5️⃣ Copiamos elementos necesarios

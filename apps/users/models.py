@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def tokens_access(self):
         refresh = RefreshToken.for_user(self)
         return ({'access':str(refresh.access_token)})
- 
+
     def tokens_refresh(self):
         refresh = RefreshToken.for_user(self)
         return {'refresh':str(refresh)}

@@ -39,7 +39,7 @@ class RegistryView(APIView):
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
 import jwt
 
 class VerifyEmail(APIView):
@@ -67,13 +67,13 @@ class VerifyEmail(APIView):
             user.save()
 
             return Response({'message': 'User activated successfully'}, status=status.HTTP_200_OK)
-        
+
         except jwt.ExpiredSignatureError:
             return Response({'error': 'Activation link has expired'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         except jwt.exceptions.DecodeError:
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 

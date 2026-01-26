@@ -19,7 +19,7 @@ class PostAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
     def get(self, request, format=None, *args, **kwargs):
         post = Profile.objects.all()
         serializer = ProfileSerializer(post, many=True)

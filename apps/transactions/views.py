@@ -33,9 +33,9 @@ class RegisterColorView(APIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# ELIMINA COLORES    
+# ELIMINA COLORES
 class DeleteColorAPIView(APIView):
-    permission_classes = (IsAuthenticated,)  
+    permission_classes = (IsAuthenticated,)
 
     def delete(self, request, pk):
         Color.objects.filter(pk=pk).delete()
@@ -50,8 +50,8 @@ class EditConceptosAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-# Esta clase es para registrar un movimiento (ingreso o gasto)    
+
+# Esta clase es para registrar un movimiento (ingreso o gasto)
 class RegisterMoveView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -178,7 +178,7 @@ class ListMoveSpentDayView(APIView):
 
 # Esta vista es para listar los gastos por semana del año.
 class ListMoveSpentWeekView(APIView):
-    permission_classes=(IsAuthenticated,) 
+    permission_classes=(IsAuthenticated,)
 
     def get(self, request, week):
         queryset = Move.objects.filter(day__week=week, concept__type_movement='gasto', status_delete=False, concept__user=request.user)
@@ -211,7 +211,7 @@ class ListMoveSpentColorView(APIView):
         queryset = Move.objects.filter(concept__user=request.user, concept__type_movement='gasto', concept__color__id=pk, status_delete=False)
         serializer = MoveSpentColorSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
 # Clase para editar y eliminar movimientos
 class CRUDMoveAPIView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -222,13 +222,13 @@ class CRUDMoveAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, move_id):
         account_obj = get_object_or_404(Move, pk=move_id, concept__type_movement='gasto', status_delete=False, concept__user=request.user)
         account_obj.status_delete = True
         account_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
-    
+
 
 # Esta vista es para listar los movimientos por ingresos.
 class ListMoveIncomeView(APIView):
@@ -304,7 +304,7 @@ class ListMoveIncomeColorView(APIView):
         serializer = MoveSpentColorSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-        
+
 # Esta vista edita un solo ingreso.
 class CRUDMoveIncomeAPIView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -315,19 +315,19 @@ class CRUDMoveIncomeAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, move_id):
         account_obj = get_object_or_404(Move, pk=move_id, concept__type_movement='ingreso', concept__user=request.user)
         account_obj.status_delete = True
         account_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
-        
+
 
 #BALANCE GENERAL
-#         
+#
 # Esta vista es para listar balance solo mes sin año con suma
 class ListBalanceMonthView(APIView):
-    permission_classes=(IsAuthenticated,) 
+    permission_classes=(IsAuthenticated,)
 
     def get(self, request, month):
         ingresos_list = Move.objects.filter(day__month=month, concept__type_movement='ingreso', status_delete=False, concept__user=request.user)
@@ -336,7 +336,7 @@ class ListBalanceMonthView(APIView):
         gastos_total = Move.objects.filter(day__month=month, concept__type_movement='gasto', status_delete=False, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -347,7 +347,7 @@ class ListBalanceMonthView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -388,7 +388,7 @@ class ListBalanceYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -428,7 +428,7 @@ class ListBalanceWeekView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -469,7 +469,7 @@ class ListBalanceDayView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -509,7 +509,7 @@ class ListBalanceWeekYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -526,7 +526,7 @@ class ListBalanceWeekYearView(APIView):
                 "balance" : balance
             }
             return Response(data, status=status.HTTP_200_OK)
-       
+
 
 class ListBalanceMonthYearView(APIView):
     permission_classes=(IsAuthenticated,)
@@ -549,7 +549,7 @@ class ListBalanceMonthYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -589,7 +589,7 @@ class ListBalanceMoveView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -629,7 +629,7 @@ class ListBalanceFixedView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -669,7 +669,7 @@ class ListBalanceVariableView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -722,7 +722,7 @@ class ListBalanceIncomeView(APIView):
 # Esta vista es para listar balance de una cuenta solo por mes.
 class ListBalanceAccountMonthView(APIView):
     permission_classes=(IsAuthenticated,)
-    
+
     def get(self, request, pk, month):
         ingresos_list = Move.objects.filter(day__month=month, concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user)
         ingresos_total = Move.objects.filter(day__month=month, concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
@@ -730,7 +730,7 @@ class ListBalanceAccountMonthView(APIView):
         gastos_total = Move.objects.filter(day__month=month, concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -741,7 +741,7 @@ class ListBalanceAccountMonthView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -761,7 +761,7 @@ class ListBalanceAccountMonthView(APIView):
 
 class ListBalanceAccountMonthYearView(APIView):
     permission_classes=(IsAuthenticated,)
-    
+
     def get(self, request, pk, month, year):
         ingresos_list = Move.objects.filter(day__month=month, day__year=year, concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user)
         ingresos_total = Move.objects.filter(day__month=month, day__year=year, concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
@@ -769,7 +769,7 @@ class ListBalanceAccountMonthYearView(APIView):
         gastos_total = Move.objects.filter(day__month=month, day__year=year, concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -780,7 +780,7 @@ class ListBalanceAccountMonthYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -809,7 +809,7 @@ class ListBalanceAccountYearView(APIView):
         gastos_total = Move.objects.filter(day__year=year, concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -820,7 +820,7 @@ class ListBalanceAccountYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -849,7 +849,7 @@ class ListBalanceAccountWeekView(APIView):
         gastos_total = Move.objects.filter(day__week=week, concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -860,7 +860,7 @@ class ListBalanceAccountWeekView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -888,7 +888,7 @@ class ListBalanceAccountWeekYearView(APIView):
         gastos_total = Move.objects.filter(day__week=week, day__year=year, concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -899,7 +899,7 @@ class ListBalanceAccountWeekYearView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -940,7 +940,7 @@ class ListBalanceAccountDayView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -971,7 +971,7 @@ class ListBalanceAccountMoveView(APIView):
         gastos_total = Move.objects.filter(concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -982,7 +982,7 @@ class ListBalanceAccountMoveView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -1011,7 +1011,7 @@ class ListBalanceAccountFixedMoveView(APIView):
         gastos_total = Move.objects.filter(concept__type_clasification='fijo', concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -1022,7 +1022,7 @@ class ListBalanceAccountFixedMoveView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -1051,7 +1051,7 @@ class ListBalanceAccountVariableMoveView(APIView):
         gastos_total = Move.objects.filter(concept__type_clasification='variable', concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         balance = 0
         ingresos = ingresos_total.get("amount__sum", None)
         gastos = gastos_total.get("amount__sum", None)
@@ -1062,7 +1062,7 @@ class ListBalanceAccountVariableMoveView(APIView):
                      "balance": balance}
             return Response(data, status=status.HTTP_200_OK)
         elif ingresos is None and gastos is None:
-            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)        
+            return Response({'No hay ingresos y tampoco gastos'}, status=status.HTTP_200_OK)
         elif ingresos is None:
             balance = balance-gastos
             data = {
@@ -1088,7 +1088,7 @@ class ListBalanceAccountSpentView(APIView):
         gastos_list = Move.objects.filter(concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user)
         gastos_total = Move.objects.filter(concept__type_movement='gasto', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_gastos = BalanceMoveSerializer(gastos_list, many=True)
-      
+
         data = { "account_spents" : serializer_gastos.data,
         "balance": gastos_total
         }
@@ -1103,7 +1103,7 @@ class ListBalanceAccountIncomeView(APIView):
         ingresos_list = Move.objects.filter(concept__type_clasification='variable', concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user)
         ingresos_total = Move.objects.filter(concept__type_clasification='variable', concept__type_movement='ingreso', status_delete=False, account__id=pk, concept__user=request.user).aggregate(Sum('amount'))
         serializer_ingresos = BalanceMoveSerializer(ingresos_list, many=True)
-           
+
         data = { "account_incomes" : serializer_ingresos.data,
                  "balance": ingresos_total
         }

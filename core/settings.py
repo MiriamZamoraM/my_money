@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DB_NAME = config("DB_NAME", default="")
 DB_USER = config("DB_USER", default="")
-DB_PASSWORD = config("DB_PASSWORD", default="") 
+DB_PASSWORD = config("DB_PASSWORD", default="")
 DB_HOST = config("DB_HOST", default="127.0.0.1")
 DB_PORT = config("DB_PORT", cast=int, default=5432)
 
@@ -94,7 +94,7 @@ if DB_NAME != "":
             "USER": DB_USER,
             "PASSWORD": DB_PASSWORD,
             "HOST": DB_HOST,
-            "PORT": DB_PORT,      
+            "PORT": DB_PORT,
         }
     }
 else:
@@ -167,8 +167,8 @@ EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default = 'mymoney@example.com') 
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default = 'password') 
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default = 'mymoney@example.com')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default = 'password')
 EMAIL_PORT = 587
 
 STATIC_URL = "static/"

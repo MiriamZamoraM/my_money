@@ -2,12 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-   
+
 
    path('concepts/', views.RegisterConceptView.as_view(),), #Crea un nuevo concepto.
    path('colors/', views.RegisterColorView.as_view(),), #Crea un nuevo color.
    path('regmov/', views.RegisterMoveView.as_view(),), #Registra un movimiento (ingreso, egreso).
-  
+
    path('all/', views.ListMoveView.as_view(),), #Lista todos los movimientos.
    path('concepts/all/', views.ListConceptsView.as_view(),), #Lista todos los conceptos.
    path('concepts/color/<int:color>/', views.ListConceptColorView.as_view(),), #Lista los conceptos por color.
@@ -51,7 +51,7 @@ urlpatterns = [
    path('balance/variable/moves/', views.ListBalanceVariableView.as_view(),), #Lista balance con ingresos y gastos variables con suma y resta.
    path('balance/spents/', views.ListBalanceSpentView.as_view(),), #Lista el balance de gastos con suma.
    path('balance/incomes/', views.ListBalanceIncomeView.as_view(),), #Lista el balance de ingresos.
-   
+
 
    path('balance/account/<int:pk>/month/<str:month>/', views.ListBalanceAccountMonthView.as_view(),), #Lista balance de una cuenta y por mes.
    path('balance/account/<int:pk>/week/<str:week>/', views.ListBalanceAccountWeekView.as_view(),), #Lista balance de una cuenta y por semana.

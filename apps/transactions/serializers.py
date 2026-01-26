@@ -8,19 +8,19 @@ class ConceptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Concept
         fields = ('id', 'concept', 'type_movement', 'type_clasification', 'user', 'color', 'description')
-    
+
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['color'] = ColorSerializer(instance.color.all(), many=True).data
         return response
-        
+
 #Serializer para listar gastos por color
 class ConceptListSpentColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Concept
         fields = ['id', 'type_movement']
-            
+
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['color'] = ColorSerializer(instance.color.all(), many=True).data
@@ -44,7 +44,7 @@ class MoveSerializer(serializers.ModelSerializer):
         response['account'] = AccountBalanceSerializer(instance.account.all(), many=True).data
         return response
 
-    
+
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model= Color

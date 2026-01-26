@@ -59,4 +59,4 @@ class Move(models.Model):
     status_delete = models.BooleanField(default=False)
 
     class Meta:
-        db_table= 'moves' 
+        db_table= 'moves'

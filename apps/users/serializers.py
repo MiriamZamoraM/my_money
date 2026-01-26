@@ -90,5 +90,3 @@ class LoginSerializer(serializers.ModelSerializer):
             'tokens_access': user.tokens_access(),
             'tokens_refresh': user.tokens_refresh(),
         }
-
-        
